@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { startClock } from "react-native-reanimated";
 
 import { Header } from "../components/Header";
 import { Task, TasksList } from "../components/TasksList";
@@ -18,11 +19,15 @@ export function Home() {
   }
 
   function handleToggleTaskDone(id: number) {
-    //TODO - toggle task done if exists
+    const updateTasks = tasks.map((task) => ({ ...task }));
+    const selectedTask = updateTasks.find((item) => item.id === id);
+    if (!selectedTask) return;
+    selectedTask.done = !selectedTask.done;
+    setTasks(updateTasks);
   }
 
   function handleRemoveTask(id: number) {
-    //TODO - remove task from state
+    setTasks((oldTask) => oldTask.filter((task) => task.id !== id));
   }
 
   return (
