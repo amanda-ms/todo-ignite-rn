@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { startClock } from "react-native-reanimated";
+import { Alert, StyleSheet, View } from "react-native";
 
 import { Header } from "../components/Header";
 import { Task, TasksList } from "../components/TasksList";
@@ -15,7 +14,18 @@ export function Home() {
       title: newTaskTitle,
       done: false,
     };
-    setTasks((oldTask) => [...oldTask, task]);
+    const newTask = tasks.find(
+      (taskSelected) => taskSelected.title === newTaskTitle
+    );
+    if (newTask) {
+      Alert.alert(
+        "Task já cadastrada",
+        "Você não pode cadastrar uma task com o mesmo nome",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+      );
+    } else {
+      setTasks((oldTask) => [...oldTask, task]);
+    }
   }
 
   function handleToggleTaskDone(id: number) {
